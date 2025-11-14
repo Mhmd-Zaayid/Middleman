@@ -15,12 +15,9 @@ $fetch_user = $select_user->fetch(PDO::FETCH_ASSOC);
 
 if(isset($_POST['submit'])){
 
-   $name = $_POST['name'];
-   $name = filter_var($name, FILTER_SANITIZE_STRING); 
-   $number = $_POST['number'];
-   $number = filter_var($number, FILTER_SANITIZE_STRING);
-   $email = $_POST['email'];
-   $email = filter_var($email, FILTER_SANITIZE_STRING);
+   $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
+   $number = htmlspecialchars($_POST['number'], ENT_QUOTES, 'UTF-8');
+   $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
 
    if(!empty($name)){
       $update_name = $conn->prepare("UPDATE `users` SET name = ? WHERE id = ?");
@@ -54,12 +51,9 @@ if(isset($_POST['submit'])){
 
    $empty_pass = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
    $prev_pass = $fetch_user['password'];
-   $old_pass = sha1($_POST['old_pass']);
-   $old_pass = filter_var($old_pass, FILTER_SANITIZE_STRING);
-   $new_pass = sha1($_POST['new_pass']);
-   $new_pass = filter_var($new_pass, FILTER_SANITIZE_STRING);
-   $c_pass = sha1($_POST['c_pass']);
-   $c_pass = filter_var($c_pass, FILTER_SANITIZE_STRING);
+   $old_pass = htmlspecialchars(sha1($_POST['old_pass']), ENT_QUOTES, 'UTF-8');
+   $new_pass = htmlspecialchars(sha1($_POST['new_pass']), ENT_QUOTES, 'UTF-8');
+   $c_pass = htmlspecialchars(sha1($_POST['c_pass']), ENT_QUOTES, 'UTF-8');
 
    if($old_pass != $empty_pass){
       if($old_pass != $prev_pass){
@@ -96,13 +90,13 @@ if(isset($_POST['submit'])){
    <link rel="stylesheet" href="css/style.css">
 
 </head>
-<body>
+<body class="update-page">
    
 <?php include 'components/user_header.php'; ?>
 
 <section class="form-container">
 
-   <form action="" method="post">
+   <form action="" method="post" class="update-form">
       <h3>update your account!</h3>
       <input type="tel" name="name" maxlength="50" placeholder="<?= $fetch_user['name']; ?>" class="box">
       <input type="email" name="email" maxlength="50" placeholder="<?= $fetch_user['email']; ?>" class="box">

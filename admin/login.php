@@ -1,13 +1,18 @@
 <?php
+// Unified login: redirect to single login form; keep admin session shortcut
+if(isset($_COOKIE['admin_id']) && $_COOKIE['admin_id'] !== ''){
+   header('location:dashboard.php');
+   exit;
+}
+header('location:../login.php');
+exit;
 
 include '../components/connect.php';
 
 if(isset($_POST['submit'])){
 
-   $name = $_POST['name'];
-   $name = filter_var($name, FILTER_SANITIZE_STRING); 
-   $pass = sha1($_POST['pass']);
-   $pass = filter_var($pass, FILTER_SANITIZE_STRING); 
+   $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
+   $pass = htmlspecialchars(sha1($_POST['pass']), ENT_QUOTES, 'UTF-8');
 
    $select_admins = $conn->prepare("SELECT * FROM `admins` WHERE name = ? AND password = ? LIMIT 1");
    $select_admins->execute([$name, $pass]);

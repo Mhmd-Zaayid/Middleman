@@ -18,122 +18,21 @@ if(isset($_GET['get_id'])){
 
 if(isset($_POST['update'])){
 
-   $update_id = $_POST['property_id'];
-   $update_id = filter_var($update_id, FILTER_SANITIZE_STRING);
-   $property_name = $_POST['property_name'];
-   $property_name = filter_var($property_name, FILTER_SANITIZE_STRING);
-   $price = $_POST['price'];
-   $price = filter_var($price, FILTER_SANITIZE_STRING);
-   $deposite = $_POST['deposite'];
-   $deposite = filter_var($deposite, FILTER_SANITIZE_STRING);
-   $address = $_POST['address'];
-   $address = filter_var($address, FILTER_SANITIZE_STRING);
-   $offer = $_POST['offer'];
-   $offer = filter_var($offer, FILTER_SANITIZE_STRING);
-   $type = $_POST['type'];
-   $type = filter_var($type, FILTER_SANITIZE_STRING);
-   $status = $_POST['status'];
-   $status = filter_var($status, FILTER_SANITIZE_STRING);
-   $furnished = $_POST['furnished'];
-   $furnished = filter_var($furnished, FILTER_SANITIZE_STRING);
-   $bhk = $_POST['bhk'];
-   $bhk = filter_var($bhk, FILTER_SANITIZE_STRING);
-   $bedroom = $_POST['bedroom'];
-   $bedroom = filter_var($bedroom, FILTER_SANITIZE_STRING);
-   $bathroom = $_POST['bathroom'];
-   $bathroom = filter_var($bathroom, FILTER_SANITIZE_STRING);
-   $balcony = $_POST['balcony'];
-   $balcony = filter_var($balcony, FILTER_SANITIZE_STRING);
-   $carpet = $_POST['carpet'];
-   $carpet = filter_var($carpet, FILTER_SANITIZE_STRING); 
-   $age = $_POST['age'];
-   $age = filter_var($age, FILTER_SANITIZE_STRING);
-   $total_floors = $_POST['total_floors'];
-   $total_floors = filter_var($total_floors, FILTER_SANITIZE_STRING);
-   $room_floor = $_POST['room_floor'];
-   $room_floor = filter_var($room_floor, FILTER_SANITIZE_STRING);
-   $loan = $_POST['loan'];
-   $loan = filter_var($loan, FILTER_SANITIZE_STRING);
-   $description = $_POST['description'];
-   $description = filter_var($description, FILTER_SANITIZE_STRING);
+   $update_id = htmlspecialchars($_POST['property_id'], ENT_QUOTES, 'UTF-8');
+   $property_name = htmlspecialchars($_POST['property_name'], ENT_QUOTES, 'UTF-8');
+   $price = htmlspecialchars($_POST['price'], ENT_QUOTES, 'UTF-8');
+   $address = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8');
+   $city = htmlspecialchars($_POST['city'], ENT_QUOTES, 'UTF-8');
+   $type = htmlspecialchars($_POST['type'], ENT_QUOTES, 'UTF-8');
+   $status = htmlspecialchars($_POST['status'], ENT_QUOTES, 'UTF-8');
+   $furnished = htmlspecialchars($_POST['furnished'], ENT_QUOTES, 'UTF-8');
+   $bhk = htmlspecialchars($_POST['bhk'], ENT_QUOTES, 'UTF-8');
+   $bathroom = htmlspecialchars($_POST['bathroom'], ENT_QUOTES, 'UTF-8');
+   $age = htmlspecialchars($_POST['age'], ENT_QUOTES, 'UTF-8');
+   $description = htmlspecialchars($_POST['description'], ENT_QUOTES, 'UTF-8');
 
-   if(isset($_POST['lift'])){
-      $lift = $_POST['lift'];
-      $lift = filter_var($lift, FILTER_SANITIZE_STRING);
-   }else{
-      $lift = 'no';
-   }
-   if(isset($_POST['security_guard'])){
-      $security_guard = $_POST['security_guard'];
-      $security_guard = filter_var($security_guard, FILTER_SANITIZE_STRING);
-   }else{
-      $security_guard = 'no';
-   }
-   if(isset($_POST['play_ground'])){
-      $play_ground = $_POST['play_ground'];
-      $play_ground = filter_var($play_ground, FILTER_SANITIZE_STRING);
-   }else{
-      $play_ground = 'no';
-   }
-   if(isset($_POST['garden'])){
-      $garden = $_POST['garden'];
-      $garden = filter_var($garden, FILTER_SANITIZE_STRING);
-   }else{
-      $garden = 'no';
-   }
-   if(isset($_POST['water_supply'])){
-      $water_supply = $_POST['water_supply'];
-      $water_supply = filter_var($water_supply, FILTER_SANITIZE_STRING);
-   }else{
-      $water_supply = 'no';
-   }
-   if(isset($_POST['power_backup'])){
-      $power_backup = $_POST['power_backup'];
-      $power_backup = filter_var($power_backup, FILTER_SANITIZE_STRING);
-   }else{
-      $power_backup = 'no';
-   }
-   if(isset($_POST['parking_area'])){
-      $parking_area = $_POST['parking_area'];
-      $parking_area = filter_var($parking_area, FILTER_SANITIZE_STRING);
-   }else{
-      $parking_area = 'no';
-   }
-   if(isset($_POST['gym'])){
-      $gym = $_POST['gym'];
-      $gym = filter_var($gym, FILTER_SANITIZE_STRING);
-   }else{
-      $gym = 'no';
-   }
-   if(isset($_POST['shopping_mall'])){
-      $shopping_mall = $_POST['shopping_mall'];
-      $shopping_mall = filter_var($shopping_mall, FILTER_SANITIZE_STRING);
-   }else{
-      $shopping_mall = 'no';
-   }
-   if(isset($_POST['hospital'])){
-      $hospital = $_POST['hospital'];
-      $hospital = filter_var($hospital, FILTER_SANITIZE_STRING);
-   }else{
-      $hospital = 'no';
-   }
-   if(isset($_POST['school'])){
-      $school = $_POST['school'];
-      $school = filter_var($school, FILTER_SANITIZE_STRING);
-   }else{
-      $school = 'no';
-   }
-   if(isset($_POST['market_area'])){
-      $market_area = $_POST['market_area'];
-      $market_area = filter_var($market_area, FILTER_SANITIZE_STRING);
-   }else{
-      $market_area = 'no';
-   }
-
-   $old_image_01 = $_POST['old_image_01'];
-   $old_image_01 = filter_var($old_image_01, FILTER_SANITIZE_STRING);
-   $image_01 = $_FILES['image_01']['name'];
-   $image_01 = filter_var($image_01, FILTER_SANITIZE_STRING);
+   $old_image_01 = htmlspecialchars($_POST['old_image_01'], ENT_QUOTES, 'UTF-8');
+   $image_01 = htmlspecialchars($_FILES['image_01']['name'], ENT_QUOTES, 'UTF-8');
    $image_01_ext = pathinfo($image_01, PATHINFO_EXTENSION);
    $rename_image_01 = create_unique_id().'.'.$image_01_ext;
    $image_01_tmp_name = $_FILES['image_01']['tmp_name'];
@@ -147,16 +46,14 @@ if(isset($_POST['update'])){
          $update_image_01 = $conn->prepare("UPDATE `property` SET image_01 = ? WHERE id = ?");
          $update_image_01->execute([$rename_image_01, $update_id]);
          move_uploaded_file($image_01_tmp_name, $image_01_folder);
-         if($old_image_01 != ''){
+         if($old_image_01 != '' && file_exists('uploaded_files/'.$old_image_01)){
             unlink('uploaded_files/'.$old_image_01);
          }
       }
    }
 
-   $old_image_02 = $_POST['old_image_02'];
-   $old_image_02 = filter_var($old_image_02, FILTER_SANITIZE_STRING);
-   $image_02 = $_FILES['image_02']['name'];
-   $image_02 = filter_var($image_02, FILTER_SANITIZE_STRING);
+   $old_image_02 = htmlspecialchars($_POST['old_image_02'], ENT_QUOTES, 'UTF-8');
+   $image_02 = htmlspecialchars($_FILES['image_02']['name'], ENT_QUOTES, 'UTF-8');
    $image_02_ext = pathinfo($image_02, PATHINFO_EXTENSION);
    $rename_image_02 = create_unique_id().'.'.$image_02_ext;
    $image_02_tmp_name = $_FILES['image_02']['tmp_name'];
@@ -170,16 +67,14 @@ if(isset($_POST['update'])){
          $update_image_02 = $conn->prepare("UPDATE `property` SET image_02 = ? WHERE id = ?");
          $update_image_02->execute([$rename_image_02, $update_id]);
          move_uploaded_file($image_02_tmp_name, $image_02_folder);
-         if($old_image_02 != ''){
+         if($old_image_02 != '' && file_exists('uploaded_files/'.$old_image_02)){
             unlink('uploaded_files/'.$old_image_02);
          }
       }
    }
 
-   $old_image_03 = $_POST['old_image_03'];
-   $old_image_03 = filter_var($old_image_03, FILTER_SANITIZE_STRING);
-   $image_03 = $_FILES['image_03']['name'];
-   $image_03 = filter_var($image_03, FILTER_SANITIZE_STRING);
+   $old_image_03 = htmlspecialchars($_POST['old_image_03'], ENT_QUOTES, 'UTF-8');
+   $image_03 = htmlspecialchars($_FILES['image_03']['name'], ENT_QUOTES, 'UTF-8');
    $image_03_ext = pathinfo($image_03, PATHINFO_EXTENSION);
    $rename_image_03 = create_unique_id().'.'.$image_03_ext;
    $image_03_tmp_name = $_FILES['image_03']['tmp_name'];
@@ -193,16 +88,14 @@ if(isset($_POST['update'])){
          $update_image_03 = $conn->prepare("UPDATE `property` SET image_03 = ? WHERE id = ?");
          $update_image_03->execute([$rename_image_03, $update_id]);
          move_uploaded_file($image_03_tmp_name, $image_03_folder);
-         if($old_image_03 != ''){
+         if($old_image_03 != '' && file_exists('uploaded_files/'.$old_image_03)){
             unlink('uploaded_files/'.$old_image_03);
          }
       }
    }
 
-   $old_image_04 = $_POST['old_image_04'];
-   $old_image_04 = filter_var($old_image_04, FILTER_SANITIZE_STRING);
-   $image_04 = $_FILES['image_04']['name'];
-   $image_04 = filter_var($image_04, FILTER_SANITIZE_STRING);
+   $old_image_04 = htmlspecialchars($_POST['old_image_04'], ENT_QUOTES, 'UTF-8');
+   $image_04 = htmlspecialchars($_FILES['image_04']['name'], ENT_QUOTES, 'UTF-8');
    $image_04_ext = pathinfo($image_04, PATHINFO_EXTENSION);
    $rename_image_04 = create_unique_id().'.'.$image_04_ext;
    $image_04_tmp_name = $_FILES['image_04']['tmp_name'];
@@ -216,16 +109,14 @@ if(isset($_POST['update'])){
          $update_image_04 = $conn->prepare("UPDATE `property` SET image_04 = ? WHERE id = ?");
          $update_image_04->execute([$rename_image_04, $update_id]);
          move_uploaded_file($image_04_tmp_name, $image_04_folder);
-         if($old_image_04 != ''){
+         if($old_image_04 != '' && file_exists('uploaded_files/'.$old_image_04)){
             unlink('uploaded_files/'.$old_image_04);
          }
       }
    }
 
-   $old_image_05 = $_POST['old_image_05'];
-   $old_image_05 = filter_var($old_image_05, FILTER_SANITIZE_STRING);
-   $image_05 = $_FILES['image_05']['name'];
-   $image_05 = filter_var($image_05, FILTER_SANITIZE_STRING);
+   $old_image_05 = htmlspecialchars($_POST['old_image_05'], ENT_QUOTES, 'UTF-8');
+   $image_05 = htmlspecialchars($_FILES['image_05']['name'], ENT_QUOTES, 'UTF-8');
    $image_05_ext = pathinfo($image_05, PATHINFO_EXTENSION);
    $rename_image_05 = create_unique_id().'.'.$image_05_ext;
    $image_05_tmp_name = $_FILES['image_05']['tmp_name'];
@@ -239,14 +130,14 @@ if(isset($_POST['update'])){
          $update_image_05 = $conn->prepare("UPDATE `property` SET image_05 = ? WHERE id = ?");
          $update_image_05->execute([$rename_image_05, $update_id]);
          move_uploaded_file($image_05_tmp_name, $image_05_folder);
-         if($old_image_05 != ''){
+         if($old_image_05 != '' && file_exists('uploaded_files/'.$old_image_05)){
             unlink('uploaded_files/'.$old_image_05);
          }
       }
    }
 
-   $update_listing = $conn->prepare("UPDATE `property` SET property_name = ?, address = ?, price = ?, type = ?, offer = ?, status = ?, furnished = ?, bhk = ?, deposite = ?, bedroom = ?, bathroom = ?, carpet = ?, age = ?, total_floors = ?, room_floor = ?, loan = ?, lift = ?, security_guard = ?, play_ground = ?, garden = ?, water_supply = ?, power_backup = ?, parking_area = ?, gym = ?, shopping_mall = ?, hospital = ?, school = ?, market_area = ?, description = ? WHERE id = ?");   
-   $update_listing->execute([$property_name, $address, $price, $type, $offer, $status, $furnished, $bhk, $deposite, $bedroom, $bathroom, $carpet, $age, $total_floors, $room_floor, $loan, $lift, $security_guard, $play_ground, $garden, $water_supply, $power_backup, $parking_area, $gym, $shopping_mall, $hospital, $school, $market_area, $description, $update_id]);
+   $update_listing = $conn->prepare("UPDATE `property` SET property_name = ?, address = ?, city = ?, price = ?, type = ?, status = ?, furnished = ?, bhk = ?, bathroom = ?, age = ?, total_floors = ?, description = ? WHERE id = ?");   
+   $update_listing->execute([$property_name, $address, $city, $price, $type, $status, $furnished, $bhk, $bathroom, $age, $total_floors, $description, $update_id]);
 
    $success_msg[] = 'listing updated successfully!';
 
@@ -254,11 +145,10 @@ if(isset($_POST['update'])){
 
 if(isset($_POST['delete_image_02'])){
 
-   $old_image_02 = $_POST['old_image_02'];
-   $old_image_02 = filter_var($old_image_02, FILTER_SANITIZE_STRING);
+   $old_image_02 = htmlspecialchars($_POST['old_image_02'], ENT_QUOTES, 'UTF-8');
    $update_image_02 = $conn->prepare("UPDATE `property` SET image_02 = ? WHERE id = ?");
    $update_image_02->execute(['', $get_id]);
-   if($old_image_02 != ''){
+   if($old_image_02 != '' && file_exists('uploaded_files/'.$old_image_02)){
       unlink('uploaded_files/'.$old_image_02);
       $success_msg[] = 'image 02 deleted!';
    }
@@ -267,11 +157,10 @@ if(isset($_POST['delete_image_02'])){
 
 if(isset($_POST['delete_image_03'])){
 
-   $old_image_03 = $_POST['old_image_03'];
-   $old_image_03 = filter_var($old_image_03, FILTER_SANITIZE_STRING);
+   $old_image_03 = htmlspecialchars($_POST['old_image_03'], ENT_QUOTES, 'UTF-8');
    $update_image_03 = $conn->prepare("UPDATE `property` SET image_03 = ? WHERE id = ?");
    $update_image_03->execute(['', $get_id]);
-   if($old_image_03 != ''){
+   if($old_image_03 != '' && file_exists('uploaded_files/'.$old_image_03)){
       unlink('uploaded_files/'.$old_image_03);
       $success_msg[] = 'image 03 deleted!';
    }
@@ -280,11 +169,10 @@ if(isset($_POST['delete_image_03'])){
 
 if(isset($_POST['delete_image_04'])){
 
-   $old_image_04 = $_POST['old_image_04'];
-   $old_image_04 = filter_var($old_image_04, FILTER_SANITIZE_STRING);
+   $old_image_04 = htmlspecialchars($_POST['old_image_04'], ENT_QUOTES, 'UTF-8');
    $update_image_04 = $conn->prepare("UPDATE `property` SET image_04 = ? WHERE id = ?");
    $update_image_04->execute(['', $get_id]);
-   if($old_image_04 != ''){
+   if($old_image_04 != '' && file_exists('uploaded_files/'.$old_image_04)){
       unlink('uploaded_files/'.$old_image_04);
       $success_msg[] = 'image 04 deleted!';
    }
@@ -293,11 +181,10 @@ if(isset($_POST['delete_image_04'])){
 
 if(isset($_POST['delete_image_05'])){
 
-   $old_image_05 = $_POST['old_image_05'];
-   $old_image_05 = filter_var($old_image_05, FILTER_SANITIZE_STRING);
+   $old_image_05 = htmlspecialchars($_POST['old_image_05'], ENT_QUOTES, 'UTF-8');
    $update_image_05 = $conn->prepare("UPDATE `property` SET image_05 = ? WHERE id = ?");
    $update_image_05->execute(['', $get_id]);
-   if($old_image_05 != ''){
+   if($old_image_05 != '' && file_exists('uploaded_files/'.$old_image_05)){
       unlink('uploaded_files/'.$old_image_05);
       $success_msg[] = 'image 05 deleted!';
    }
@@ -352,21 +239,24 @@ if(isset($_POST['delete_image_05'])){
             <input type="number" name="price" required min="0" max="9999999999" maxlength="10" value="<?= $fetch_property['price']; ?>" placeholder="enter property price" class="input">
          </div>
          <div class="box">
-            <p>deposite amount <span>*</span></p>
-            <input type="number" name="deposite" required min="0" max="9999999999" value="<?= $fetch_property['deposite']; ?>" maxlength="10" placeholder="enter deposite amount" class="input">
+            <p>property city <span>*</span></p>
+            <select name="city" required class="input">
+               <option value="<?= $fetch_property['city']; ?>" selected><?= $fetch_property['city']; ?></option>
+               <option value="Kochi">Kochi</option>
+               <option value="Mumbai">Mumbai</option>
+               <option value="Delhi">Delhi</option>
+               <option value="Bangalore">Bangalore</option>
+               <option value="Chennai">Chennai</option>
+               <option value="Kolkata">Kolkata</option>
+               <option value="Hyderabad">Hyderabad</option>
+               <option value="Pune">Pune</option>
+               <option value="Ahmedabad">Ahmedabad</option>
+               <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+            </select>
          </div>
          <div class="box">
             <p>property address <span>*</span></p>
             <input type="text" name="address" required maxlength="100" placeholder="enter property full address" class="input" value="<?= $fetch_property['address']; ?>">
-         </div>
-         <div class="box">
-            <p>offer type <span>*</span></p>
-            <select name="offer" required class="input">
-               <option value="<?= $fetch_property['offer']; ?>" selected><?= $fetch_property['offer']; ?></option>
-               <option value="sale">sale</option>
-               <option value="resale">resale</option>
-               <option value="rent">rent</option>
-            </select>
          </div>
          <div class="box">
             <p>property type <span>*</span></p>
@@ -374,7 +264,7 @@ if(isset($_POST['delete_image_05'])){
                <option value="<?= $fetch_property['type']; ?>" selected><?= $fetch_property['type']; ?></option>
                <option value="flat">flat</option>
                <option value="house">house</option>
-               <option value="shop">shop</option>
+               <option value="plot">plot</option>
             </select>
          </div>
          <div class="box">
@@ -383,6 +273,7 @@ if(isset($_POST['delete_image_05'])){
                <option value="<?= $fetch_property['status']; ?>" selected><?= $fetch_property['status']; ?></option>
                <option value="ready to move">ready to move</option>
                <option value="under construction">under construction</option>
+               <option value="not applicable">not applicable</option>
             </select>
          </div>
          <div class="box">
@@ -392,12 +283,14 @@ if(isset($_POST['delete_image_05'])){
                <option value="furnished">furnished</option>
                <option value="semi-furnished">semi-furnished</option>
                <option value="unfurnished">unfurnished</option>
+               <option value="not applicable">not applicable</option>
             </select>
          </div>
          <div class="box">
             <p>how many BHK <span>*</span></p>
             <select name="bhk" required class="input">
                <option value="<?= $fetch_property['bhk']; ?>" selected><?= $fetch_property['bhk']; ?> BHK</option>
+               <option value="0">not applicable</option>
                <option value="1">1 BHK</option>
                <option value="2">2 BHK</option>
                <option value="3">3 BHK</option>
@@ -409,26 +302,12 @@ if(isset($_POST['delete_image_05'])){
                <option value="9">9 BHK</option>
             </select>
          </div>
-         <div class="box">
-            <p>how many bedrooms <span>*</span></p>
-            <select name="bedroom" required class="input">
-               <option value="<?= $fetch_property['bedroom']; ?>" selected><?= $fetch_property['bedroom']; ?> bedroom</option>
-               <option value="0">0 bedroom</option>
-               <option value="1">1 bedroom</option>
-               <option value="2">2 bedroom</option>
-               <option value="3">3 bedroom</option>
-               <option value="4">4 bedroom</option>
-               <option value="5">5 bedroom</option>
-               <option value="6">6 bedroom</option>
-               <option value="7">7 bedroom</option>
-               <option value="8">8 bedroom</option>
-               <option value="9">9 bedroom</option>
-            </select>
-         </div>
+         
          <div class="box">
             <p>how many bathrooms <span>*</span></p>
             <select name="bathroom" required class="input">
                <option value="<?= $fetch_property['bathroom']; ?>" selected><?= $fetch_property['bathroom']; ?> bathroom</option>
+               <option value="0">not applicable</option>
                <option value="1">1 bathroom</option>
                <option value="2">2 bathroom</option>
                <option value="3">3 bathroom</option>
@@ -441,26 +320,6 @@ if(isset($_POST['delete_image_05'])){
             </select>
          </div>
          <div class="box">
-            <p>how many balconys <span>*</span></p>
-            <select name="balcony" required class="input">
-               <option value="<?= $fetch_property['balcony']; ?>" selected><?= $fetch_property['balcony']; ?> balcony</option>
-               <option value="0">0 balcony</option>
-               <option value="1">1 balcony</option>
-               <option value="2">2 balcony</option>
-               <option value="3">3 balcony</option>
-               <option value="4">4 balcony</option>
-               <option value="5">5 balcony</option>
-               <option value="6">6 balcony</option>
-               <option value="7">7 balcony</option>
-               <option value="8">8 balcony</option>
-               <option value="9">9 balcony</option>
-            </select>
-         </div>
-         <div class="box">
-            <p>carpet area <span>*</span></p>
-            <input type="number" name="carpet" required min="1" max="9999999999" maxlength="10" placeholder="how many squarefits?" class="input" value="<?= $fetch_property['carpet']; ?>">
-         </div>
-         <div class="box">
             <p>property age <span>*</span></p>
             <input type="number" name="age" required min="0" max="99" maxlength="2" placeholder="how old is property?" class="input" value="<?= $fetch_property['age']; ?>">
          </div>
@@ -468,41 +327,12 @@ if(isset($_POST['delete_image_05'])){
             <p>total floors <span>*</span></p>
             <input type="number" name="total_floors" required min="0" max="99" maxlength="2" placeholder="how floors available?" class="input" value="<?= $fetch_property['total_floors']; ?>">
          </div>
-         <div class="box">
-            <p>floor room <span>*</span></p>
-            <input type="number" name="room_floor" required min="0" max="99" maxlength="2" placeholder="property floor number" class="input" value="<?= $fetch_property['room_floor']; ?>">
-         </div>
-         <div class="box">
-            <p>loan <span>*</span></p>
-            <select name="loan" required class="input">
-               <option value="<?= $fetch_property['loan']; ?>" selected><?= $fetch_property['loan']; ?></option>
-               <option value="available">available</option>
-               <option value="not available" >not available</option>
-            </select>
-         </div>
       </div>
       <div class="box">
          <p>property description <span>*</span></p>
          <textarea name="description" maxlength="1000" class="input" required cols="30" rows="10" placeholder="write about property..." ><?= $fetch_property['description']; ?></textarea>
       </div>
-      <div class="checkbox">
-         <div class="box">
-            <p><input type="checkbox" name="lift" value="yes" <?php if($fetch_property['lift'] == 'yes'){echo 'checked'; } ?> />lifts</p>
-            <p><input type="checkbox" name="security_guard" value="yes" <?php if($fetch_property['security_guard'] == 'yes'){echo 'checked'; } ?> />security guard</p>
-            <p><input type="checkbox" name="play_ground" value="yes" <?php if($fetch_property['play_ground'] == 'yes'){echo 'checked'; } ?> />play ground</p>
-            <p><input type="checkbox" name="garden" value="yes" <?php if($fetch_property['garden'] == 'yes'){echo 'checked'; } ?> />garden</p>
-            <p><input type="checkbox" name="water_supply" value="yes" <?php if($fetch_property['water_supply'] == 'yes'){echo 'checked'; } ?> />water supply</p>
-            <p><input type="checkbox" name="power_backup" value="yes" <?php if($fetch_property['power_backup'] == 'yes'){echo 'checked'; } ?> />power backup</p>
-         </div>
-         <div class="box">
-            <p><input type="checkbox" name="parking_area" value="yes" <?php if($fetch_property['parking_area'] == 'yes'){echo 'checked'; } ?> />parking area</p>
-            <p><input type="checkbox" name="gym" value="yes" <?php if($fetch_property['gym'] == 'yes'){echo 'checked'; } ?> />gym</p>
-            <p><input type="checkbox" name="shopping_mall" value="yes" <?php if($fetch_property['shopping_mall'] == 'yes'){echo 'checked'; } ?> />shopping_mall</p>
-            <p><input type="checkbox" name="hospital" value="yes" <?php if($fetch_property['hospital'] == 'yes'){echo 'checked'; } ?> />hospital</p>
-            <p><input type="checkbox" name="school" value="yes" <?php if($fetch_property['school'] == 'yes'){echo 'checked'; } ?> />school</p>
-            <p><input type="checkbox" name="market_area" value="yes" <?php if($fetch_property['market_area'] == 'yes'){echo 'checked'; } ?> />market area</p>
-         </div>
-      </div>
+
       <div class="box">
          <img src="uploaded_files/<?= $fetch_property['image_01']; ?>" class="image" alt="">
          <p>update image 01</p>
@@ -566,6 +396,29 @@ if(isset($_POST['delete_image_05'])){
 <script src="js/script.js"></script>
 
 <?php include 'components/message.php'; ?>
+
+<script>
+document.querySelector('select[name="type"]').addEventListener('change', function() {
+   const isPlot = this.value === 'plot';
+   const fieldsToUpdate = ['bhk', 'bathroom', 'furnished', 'status'];
+   fieldsToUpdate.forEach(field => {
+      const select = document.querySelector(`select[name="${field}"]`);
+      if(!select) return;
+      if(isPlot) {
+         if(field === 'bhk') select.value = '0';
+         if(field === 'bathroom') select.value = '0';
+         if(field === 'furnished') select.value = 'not applicable';
+         if(field === 'status') select.value = 'not applicable';
+      }
+   });
+});
+
+// Set initial state based on current property type
+if(document.querySelector('select[name="type"]').value === 'plot') {
+   const event = new Event('change');
+   document.querySelector('select[name="type"]').dispatchEvent(event);
+}
+</script>
 
 </body>
 </html>

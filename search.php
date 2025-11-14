@@ -25,6 +25,51 @@ include 'components/save_send.php';
 
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+   <style>
+      body{ font-family: 'Poppins', system-ui, sans-serif; }
+      .modern-filters{
+         /* remove all color outside the card */
+         background: transparent !important;
+         background-color: transparent !important;
+         padding: 3rem 1.2rem !important;
+      }
+      .filter-card{
+         max-width: 1200px;
+         margin: 0 auto;
+         background: #fff;
+         border-radius: 16px;
+         box-shadow: 0 8px 22px -4px rgba(0,0,0,.12);
+         padding: 2.2rem 2rem 2.4rem;
+      }
+      .filter-card h3{ 
+         margin: 0 0 1.2rem; font-size: 2.1rem; font-weight: 600; color: #1d3557;
+      }
+      .filter-grid{
+         display: grid;
+         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+         gap: 1.4rem 1.2rem;
+         margin-top: 1.2rem;
+      }
+      .filter-field{ display: flex; flex-direction: column; }
+      .filter-field label{ font-size: 1.2rem; font-weight: 500; color: #2d3a4b; margin-bottom: .45rem; letter-spacing: .2px; }
+      .filter-field .input{ 
+         border: 1px solid #d7e0ea; background: #f9fbfd; border-radius: 10px; padding: .9rem 1rem; font-size: 1.2rem; outline: none; transition: .2s;
+      }
+      .filter-field .input:hover{ background: #fff; border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96,165,250,.25); }
+      .filter-field .input:focus{ background: #fff; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.28); }
+      .filter-actions{ display:flex; gap:1rem; align-items:center; margin-top:1.4rem; }
+      .filter-actions .btn{ 
+         background: linear-gradient(90deg,#4b79cf,#6aa6ff); color:#fff; border:none; padding: .95rem 1.6rem; border-radius: 30px; font-weight:600; letter-spacing:.3px; cursor:pointer; transition: .28s; box-shadow: 0 6px 18px -6px rgba(55,120,190,.45);
+      }
+      .filter-actions .btn:hover{ transform: translateY(-3px); box-shadow: 0 10px 24px -6px rgba(55,120,190,.55); }
+      .filter-warning{ display:none; margin-top:.6rem; color:#b91c1c; font-size: .95rem; }
+      @media (max-width: 640px){
+         .filter-card{ padding: 1.6rem 1.2rem 1.8rem; }
+         .filter-card h3{ font-size: 1.6rem; }
+         .filter-grid{ grid-template-columns: 1fr; }
+      }
+   </style>
 
 </head>
 <body>
@@ -33,36 +78,68 @@ include 'components/save_send.php';
 
 <!-- search filter section starts  -->
 
-<section class="filters" style="padding-bottom: 0;">
-
-   <form action="" method="post">
-      <div id="close-filter"><i class="fas fa-times"></i></div>
-      <h3>filter your search</h3>
-         
-         <div class="flex">
-            <div class="box">
-               <p>enter location</p>
-               <input type="text" name="location" required maxlength="50" placeholder="enter city name" class="input">
-            </div>
-            <div class="box">
-               <p>offer type</p>
-               <select name="offer" class="input" required>
-                  <option value="sale">sale</option>
-                  <option value="resale">resale</option>
-                  <option value="rent">rent</option>
+<section class="filters modern-filters" style="padding-bottom: 0;">
+   <div class="filter-card">
+      <form id="filterForm" action="" method="post">
+         <div id="close-filter"><i class="fas fa-times"></i></div>
+         <h3>Filter Your Search</h3>
+         <div id="filterMessage" class="filter-warning">Please select at least one filter.</div>
+         <div class="filter-grid">
+            <div class="filter-field">
+               <label for="location">Select City</label>
+               <select id="location" name="location" class="input">
+                  <option value="">Select City</option>
+                  <!-- Pan-India major cities -->
+                  <option value="Kochi">Kochi</option>
+                  <option value="Mumbai">Mumbai</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Bangalore">Bangalore</option>
+                  <option value="Chennai">Chennai</option>
+                  <option value="Kolkata">Kolkata</option>
+                  <option value="Hyderabad">Hyderabad</option>
+                  <option value="Pune">Pune</option>
+                  <option value="Ahmedabad">Ahmedabad</option>
+                  <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                  <!-- Kerala core districts -->
+                  <option value="Kottayam">Kottayam</option>
+                  <option value="Kannur">Kannur</option>
+                  <option value="Thrissur">Thrissur</option>
+                  <option value="Malappuram">Malappuram</option>
+                  <option value="Palakkad">Palakkad</option>
+                  <option value="Wayanad">Wayanad</option>
+                  <option value="Idukki">Idukki</option>
+                  <option value="Alappuzha">Alappuzha</option>
+                  <option value="Kollam">Kollam</option>
+                  <option value="Kozhikode">Kozhikode</option>
+                  <option value="Kasaragod">Kasaragod</option>
+                  <option value="Pathanamthitta">Pathanamthitta</option>
+                  <option value="Ernakulam">Ernakulam</option>
+                  <!-- Additional Kerala notable towns (10 extras) -->
+                  <option value="Guruvayur">Guruvayur</option>
+                  <option value="Kalpetta">Kalpetta</option>
+                  <option value="Munnar">Munnar</option>
+                  <option value="Varkala">Varkala</option>
+                  <option value="Changanassery">Changanassery</option>
+                  <option value="Nedumbassery">Nedumbassery</option>
+                  <option value="Kumbalangi">Kumbalangi</option>
+                  <option value="Perumbavoor">Perumbavoor</option>
+                  <option value="Angamaly">Angamaly</option>
+                  <option value="Mattancherry">Mattancherry</option>
                </select>
             </div>
-            <div class="box">
-               <p>property type</p>
-               <select name="type" class="input" required>
+            <div class="filter-field">
+               <label for="type">Property Type</label>
+               <select id="type" name="type" class="input">
+                  <option value="">Any Type</option>
                   <option value="flat">flat</option>
                   <option value="house">house</option>
-                  <option value="shop">shop</option>
+                  <option value="plot">plot</option>
                </select>
             </div>
-            <div class="box">
-               <p>how many BHK</p>
-               <select name="bhk" class="input" required>
+            <div class="filter-field">
+               <label for="bhk">How many BHK</label>
+               <select id="bhk" name="bhk" class="input">
+                  <option value="">Any BHK</option>
                   <option value="1">1 BHK</option>
                   <option value="2">2 BHK</option>
                   <option value="3">3 BHK</option>
@@ -74,15 +151,15 @@ include 'components/save_send.php';
                   <option value="9">9 BHK</option>
                </select>
             </div>
-            <div class="box">
-               <p>maximum budget</p>
-               <select name="min" class="input" required>
+            <div class="filter-field">
+               <label for="min">Minimum Budget</label>
+               <select id="min" name="min" class="input">
+                  <option value="">Any Budget</option>
                   <option value="5000">5k</option>
                   <option value="10000">10k</option>
                   <option value="15000">15k</option>
                   <option value="20000">20k</option>
                   <option value="30000">30k</option>
-                  <option value="40000">40k</option>
                   <option value="40000">40k</option>
                   <option value="50000">50k</option>
                   <option value="100000">1 lac</option>
@@ -90,7 +167,6 @@ include 'components/save_send.php';
                   <option value="1000000">10 lac</option>
                   <option value="2000000">20 lac</option>
                   <option value="3000000">30 lac</option>
-                  <option value="4000000">40 lac</option>
                   <option value="4000000">40 lac</option>
                   <option value="5000000">50 lac</option>
                   <option value="6000000">60 lac</option>
@@ -111,15 +187,14 @@ include 'components/save_send.php';
                   <option value="200000000">20 Cr</option>
                </select>
             </div>
-            <div class="box">
-               <p>maximum budget</p>
-               <select name="max" class="input" required>
-                  <option value="5000">5k</option>
+            <div class="filter-field">
+               <label for="max">Maximum Budget</label>
+               <select id="max" name="max" class="input">
+                  <option value="">Any Budget</option>
                   <option value="10000">10k</option>
                   <option value="15000">15k</option>
                   <option value="20000">20k</option>
                   <option value="30000">30k</option>
-                  <option value="40000">40k</option>
                   <option value="40000">40k</option>
                   <option value="50000">50k</option>
                   <option value="100000">1 lac</option>
@@ -127,7 +202,6 @@ include 'components/save_send.php';
                   <option value="1000000">10 lac</option>
                   <option value="2000000">20 lac</option>
                   <option value="3000000">30 lac</option>
-                  <option value="4000000">40 lac</option>
                   <option value="4000000">40 lac</option>
                   <option value="5000000">50 lac</option>
                   <option value="6000000">60 lac</option>
@@ -148,25 +222,31 @@ include 'components/save_send.php';
                   <option value="200000000">20 Cr</option>
                </select>
             </div>
-            <div class="box">
-               <p>status</p>
-               <select name="status" class="input" required>
+            <div class="filter-field">
+               <label for="status">Status</label>
+               <select id="status" name="status" class="input">
+                  <option value="">Any Status</option>
                   <option value="ready to move">ready to move</option>
                   <option value="under construction">under construction</option>
+                  <option value="not applicable">not applicable</option>
                </select>
             </div>
-            <div class="box">
-               <p>furnished</p>
-               <select name="furnished" class="input" required>
+            <div class="filter-field">
+               <label for="furnished">Furnished</label>
+               <select id="furnished" name="furnished" class="input">
+                  <option value="">Any Furnished Status</option>
                   <option value="unfurnished">unfurnished</option>
                   <option value="furnished">furnished</option>
                   <option value="semi-furnished">semi-furnished</option>
+                  <option value="not applicable">not applicable</option>
                </select>
             </div>
          </div>
-         <input type="submit" value="search property" name="filter_search" class="btn">
-   </form>
-
+         <div class="filter-actions">
+            <input type="submit" value="search property" name="filter_search" class="btn">
+         </div>
+      </form>
+   </div>
 </section>
 
 <!-- search filter section ends -->
@@ -177,41 +257,93 @@ include 'components/save_send.php';
 
 if(isset($_POST['h_search'])){
 
-   $h_location = $_POST['h_location'];
-   $h_location = filter_var($h_location, FILTER_SANITIZE_STRING);
-   $h_type = $_POST['h_type'];
-   $h_type = filter_var($h_type, FILTER_SANITIZE_STRING);
-   $h_offer = $_POST['h_offer'];
-   $h_offer = filter_var($h_offer, FILTER_SANITIZE_STRING);
-   $h_min = $_POST['h_min'];
-   $h_min = filter_var($h_min, FILTER_SANITIZE_STRING);
-   $h_max = $_POST['h_max'];
-   $h_max = filter_var($h_max, FILTER_SANITIZE_STRING);
+   $h_location = htmlspecialchars($_POST['h_location'], ENT_QUOTES, 'UTF-8');
+   $h_type = isset($_POST['h_type']) ? htmlspecialchars($_POST['h_type'], ENT_QUOTES, 'UTF-8') : '';
+   $h_min = isset($_POST['h_min']) ? htmlspecialchars($_POST['h_min'], ENT_QUOTES, 'UTF-8') : '';
+   $h_max = isset($_POST['h_max']) ? htmlspecialchars($_POST['h_max'], ENT_QUOTES, 'UTF-8') : '';
 
-   $select_properties = $conn->prepare("SELECT * FROM `property` WHERE address LIKE '%{$h_location}%' AND type LIKE '%{$h_type}%' AND offer LIKE '%{$h_offer}%' AND price BETWEEN $h_min AND $h_max ORDER BY date DESC");
-   $select_properties->execute();
+   $where = ["LOWER(city) = LOWER(:location)"];
+   $params = [':location' => $h_location];
+
+   if ($h_type !== '') {
+      $where[] = "type = :type";
+      $params[':type'] = $h_type;
+   }
+   if ($h_min !== '') {
+      $where[] = "price >= :min";
+      $params[':min'] = $h_min;
+   }
+   if ($h_max !== '') {
+      $where[] = "price <= :max";
+      $params[':max'] = $h_max;
+   }
+
+   $sql = "SELECT * FROM `property` WHERE " . implode(' AND ', $where) . " ORDER BY date DESC";
+   $select_properties = $conn->prepare($sql);
+   $select_properties->execute($params);
 
 }elseif(isset($_POST['filter_search'])){
 
-   $location = $_POST['location'];
-   $location = filter_var($location, FILTER_SANITIZE_STRING);
-   $type = $_POST['type'];
-   $type = filter_var($type, FILTER_SANITIZE_STRING);
-   $offer = $_POST['offer'];
-   $offer = filter_var($offer, FILTER_SANITIZE_STRING);
-   $bhk = $_POST['bhk'];
-   $bhk = filter_var($bhk, FILTER_SANITIZE_STRING);
-   $min = $_POST['min'];
-   $min = filter_var($min, FILTER_SANITIZE_STRING);
-   $max = $_POST['max'];
-   $max = filter_var($max, FILTER_SANITIZE_STRING);
-   $status = $_POST['status'];
-   $status = filter_var($status, FILTER_SANITIZE_STRING);
-   $furnished = $_POST['furnished'];
-   $furnished = filter_var($furnished, FILTER_SANITIZE_STRING);
+   $location  = htmlspecialchars($_POST['location'], ENT_QUOTES, 'UTF-8');
+   $type      = isset($_POST['type']) ? htmlspecialchars($_POST['type'], ENT_QUOTES, 'UTF-8') : '';
+   $bhk       = isset($_POST['bhk']) ? htmlspecialchars($_POST['bhk'], ENT_QUOTES, 'UTF-8') : '';
+   $min       = htmlspecialchars($_POST['min'], ENT_QUOTES, 'UTF-8');
+   $max       = htmlspecialchars($_POST['max'], ENT_QUOTES, 'UTF-8');
+   $status    = isset($_POST['status']) ? htmlspecialchars($_POST['status'], ENT_QUOTES, 'UTF-8') : '';
+   $furnished = isset($_POST['furnished']) ? htmlspecialchars($_POST['furnished'], ENT_QUOTES, 'UTF-8') : '';
 
-   $select_properties = $conn->prepare("SELECT * FROM `property` WHERE address LIKE '%{$location}%' AND type LIKE '%{$type}%' AND offer LIKE '%{$offer}%' AND bhk LIKE '%{$bhk}%' AND status LIKE '%{$status}%' AND furnished LIKE '%{$furnished}%' AND price BETWEEN $min AND $max ORDER BY date DESC");
-   $select_properties->execute();
+   $where = [];
+   $params = [];
+   if($location !== ''){
+      $where[] = "LOWER(city) = LOWER(:location)";
+      $params[':location'] = $location;
+   }
+
+   // Price conditions: if max selected show all from min (or 0) up to max
+   $hasMin = ($min !== '');
+   $hasMax = ($max !== '');
+   if($hasMax){
+      if($hasMin){
+         if((float)$min > (float)$max){ $tmp = $min; $min = $max; $max = $tmp; }
+         $where[] = "price BETWEEN :min AND :max";
+         $params[':min'] = $min;
+         $params[':max'] = $max;
+      }else{
+         $where[] = "price BETWEEN :min AND :max";
+         $params[':min'] = 0;
+         $params[':max'] = $max;
+      }
+   }elseif($hasMin){
+      $where[] = "price >= :min";
+      $params[':min'] = $min;
+   }
+
+   if($type !== ''){
+      $where[] = "type = :type";
+      $params[':type'] = $type;
+   }
+   if($bhk !== ''){
+      $where[] = "bhk = :bhk";
+      $params[':bhk'] = $bhk;
+   }
+   if($status !== ''){
+      $where[] = "status = :status";
+      $params[':status'] = $status;
+   }
+   if($furnished !== ''){
+      $where[] = "furnished = :furnished";
+      $params[':furnished'] = $furnished;
+   }
+
+   if(count($where) === 0){
+      $sql = "SELECT * FROM `property` ORDER BY date DESC LIMIT 12";
+      $select_properties = $conn->prepare($sql);
+      $select_properties->execute();
+   }else{
+      $sql = "SELECT * FROM `property` WHERE " . implode(' AND ', $where) . " ORDER BY date DESC";
+      $select_properties = $conn->prepare($sql);
+      $select_properties->execute($params);
+   }
 
 }else{
    $select_properties = $conn->prepare("SELECT * FROM `property` ORDER BY date DESC LIMIT 6");
@@ -300,11 +432,9 @@ if(isset($_POST['h_search'])){
             <p class="location"><i class="fas fa-map-marker-alt"></i><span><?= $fetch_property['address']; ?></span></p>
             <div class="flex">
                <p><i class="fas fa-house"></i><span><?= $fetch_property['type']; ?></span></p>
-               <p><i class="fas fa-tag"></i><span><?= $fetch_property['offer']; ?></span></p>
                <p><i class="fas fa-bed"></i><span><?= $fetch_property['bhk']; ?> BHK</span></p>
                <p><i class="fas fa-trowel"></i><span><?= $fetch_property['status']; ?></span></p>
                <p><i class="fas fa-couch"></i><span><?= $fetch_property['furnished']; ?></span></p>
-               <p><i class="fas fa-maximize"></i><span><?= $fetch_property['carpet']; ?>sqft</span></p>
             </div>
             <div class="flex-btn">
                <a href="view_property.php?get_id=<?= $fetch_property['id']; ?>" class="btn">view property</a>
@@ -354,6 +484,39 @@ document.querySelector('#close-filter').onclick = () =>{
    document.querySelector('.filters').classList.remove('active');
 }
 
+
+document.querySelector('select[name="type"]').addEventListener('change', function() {
+    const isPlot = this.value === 'plot';
+    const fieldsToUpdate = ['bhk', 'status', 'furnished'];
+    
+    fieldsToUpdate.forEach(field => {
+        const select = document.querySelector(`select[name="${field}"]`);
+        if(isPlot) {
+            if(field === 'bhk') select.value = '';
+            if(field === 'furnished') select.value = 'not applicable';
+            if(field === 'status') select.value = 'not applicable';
+        }
+    });
+});
+
+// Front-end validation: require at least one filter before submit
+document.getElementById('filterForm').addEventListener('submit', function(e){
+   const fields = ['location','type','bhk','min','max','status','furnished'];
+   const hasValue = fields.some(id => {
+      const el = document.getElementById(id);
+      return el && el.value.trim() !== '';
+   });
+   const msg = document.getElementById('filterMessage');
+   if(!hasValue){
+      e.preventDefault();
+      msg.style.display = 'block';
+      msg.focus();
+      setTimeout(()=> msg.style.opacity = '1', 10);
+   }else{
+      msg.style.display = 'none';
+      msg.style.opacity = '0';
+   }
+});
 </script>
 
 </body>

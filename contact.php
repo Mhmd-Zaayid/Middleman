@@ -11,14 +11,10 @@ if(isset($_COOKIE['user_id'])){
 if(isset($_POST['send'])){
 
    $msg_id = create_unique_id();
-   $name = $_POST['name'];
-   $name = filter_var($name, FILTER_SANITIZE_STRING);
-   $email = $_POST['email'];
-   $email = filter_var($email, FILTER_SANITIZE_STRING);
-   $number = $_POST['number'];
-   $number = filter_var($number, FILTER_SANITIZE_STRING);
-   $message = $_POST['message'];
-   $message = filter_var($message, FILTER_SANITIZE_STRING);
+   $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
+   $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+   $number = htmlspecialchars($_POST['number'], ENT_QUOTES, 'UTF-8');
+   $message = htmlspecialchars($_POST['message'], ENT_QUOTES, 'UTF-8');
 
    $verify_contact = $conn->prepare("SELECT * FROM `messages` WHERE name = ? AND email = ? AND number = ? AND message = ?");
    $verify_contact->execute([$name, $email, $number, $message]);
@@ -84,34 +80,32 @@ if(isset($_POST['send'])){
 
    <div class="box-container">
 
-      <div class="box active">
-         <h3><span>how to cancel booking?</span><i class="fas fa-angle-down"></i></h3>
-         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus veritatis ducimus aut accusantium sunt error esse laborum cumque ipsum ab.</p>
-      </div>
 
       <div class="box active">
          <h3><span>when will I get the possession?</span><i class="fas fa-angle-down"></i></h3>
-         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus veritatis ducimus aut accusantium sunt error esse laborum cumque ipsum ab.</p>
-      </div>
-
-      <div class="box">
-         <h3><span>where can I pay the rent?</span><i class="fas fa-angle-down"></i></h3>
-         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus veritatis ducimus aut accusantium sunt error esse laborum cumque ipsum ab.</p>
+         <p>Possession is handed over once the full payment and registration 
+            process are completed. After verifying all documents and clearances, the
+             buyer receives an official possession letter.</p>
       </div>
 
       <div class="box">
          <h3><span>how to contact with the buyers?</span><i class="fas fa-angle-down"></i></h3>
-         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus veritatis ducimus aut accusantium sunt error esse laborum cumque ipsum ab.</p>
+         <p>To contact buyers, you can reach out via the contact
+             information provided in their listings.</p>
       </div>
 
       <div class="box">
          <h3><span>why my listing not showing up?</span><i class="fas fa-angle-down"></i></h3>
-         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus veritatis ducimus aut accusantium sunt error esse laborum cumque ipsum ab.</p>
+         <p>Your listing may not be showing up because it’s still missing details.
+             Please make sure all property information and images are complete.If the issue continues,
+            contact our team.</p>
       </div>
 
       <div class="box">
          <h3><span>how to promote my listing?</span><i class="fas fa-angle-down"></i></h3>
-         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus veritatis ducimus aut accusantium sunt error esse laborum cumque ipsum ab.</p>
+         <p>Sharing your property link on social media and real estate groups 
+            helps attract more buyers. Regularly updating your listing with fresh photos and
+             accurate details increases your chances of getting noticed.</p>
       </div>
 
    </div>
@@ -119,14 +113,6 @@ if(isset($_POST['send'])){
 </section>
 
 <!-- faq section ends -->
-
-
-
-
-
-
-
-
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>

@@ -26,7 +26,7 @@ if(isset($_COOKIE['admin_id'])){
    <link rel="stylesheet" href="../css/admin_style.css">
 
 </head>
-<body>
+<body class="bg-electric-blue">
    
 <!-- header section starts  -->
 <?php include '../components/admin_header.php'; ?>
@@ -38,63 +38,72 @@ if(isset($_COOKIE['admin_id'])){
 
    <h1 class="heading">dashboard</h1>
 
-   <div class="box-container">
+   <style>
+      /* Stat cards styled but sized/positioned to mimic original 35rem grid */
+      .stats-grid{ display:grid; grid-template-columns: repeat(auto-fit,35rem); align-items:flex-start; justify-content:center; gap:1.5rem; }
+      .stat-card{ position:relative; background:#fff; border-radius:.5rem; padding:2rem; box-shadow:var(--box-shadow); border:var(--border); text-align:center; }
+      .stat-card .icon{ width:60px; height:60px; display:grid; place-items:center; border-radius:1rem; color:#fff; font-size:2.2rem; margin:0 auto 1rem; }
+      .stat-card .value{ font-size:2.5rem; font-weight:600; color:var(--black); line-height:1; }
+      .stat-card .label{ color:var(--light-color); font-size:1.6rem; margin:.8rem 0 1rem; text-transform:capitalize; }
+      .stat-card .cta{ display:inline-block; margin-top:1rem; font-size:1.4rem; color:#2563eb; font-weight:600; }
+      .stat-card .cta:hover{ text-decoration:underline; }
+      .bg-blue{ background:linear-gradient(135deg,#3b82f6,#60a5fa); }
+      .bg-emerald{ background:linear-gradient(135deg,#10b981,#34d399); }
+      .bg-purple{ background:linear-gradient(135deg,#8b5cf6,#a78bfa); }
+      .bg-rose{ background:linear-gradient(135deg,#ef4444,#f97316); }
+      .stat-card .bg-fade{ display:none; }
+      .stat-card:hover{ transform:translateY(-2px); box-shadow:0 1rem 2rem -4px rgba(0,0,0,.15); }
+      @media (max-width:450px){ .stats-grid{ grid-template-columns:1fr; } }
+   </style>
 
-   <div class="box">
-      <?php
-         $select_profile = $conn->prepare("SELECT * FROM `admins` WHERE id = ? LIMIT 1");
-         $select_profile->execute([$admin_id]);
-         $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
-      ?>
-      <h3>welcome!</h3>
-      <p><?= $fetch_profile['name']; ?></p>
-      <a href="update.php" class="btn">update profile</a>
-   </div>
+   <div class="box-container stats-grid">
+      <div class="box stat-card">
+         <div class="icon bg-blue"><i class="fas fa-user-shield"></i></div>
+         <?php
+            $select_profile = $conn->prepare("SELECT * FROM `admins` WHERE id = ? LIMIT 1");
+            $select_profile->execute([$admin_id]);
+            $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
+         ?>
+         <div class="label">Welcome</div>
+         <div class="value" style="font-size:1.8rem;"><?= htmlspecialchars($fetch_profile['name']); ?></div>
+         <a href="update.php" class="cta">Update profile →</a>
+      </div>
 
-   <div class="box">
-      <?php
-         $select_listings = $conn->prepare("SELECT * FROM `property`");
-         $select_listings->execute();
-         $count_listings = $select_listings->rowCount();
-      ?>
-      <h3><?= $count_listings; ?></h3>
-      <p>property posted</p>
-      <a href="listings.php" class="btn">view listings</a>
-   </div>
+      <div class="box stat-card">
+         <div class="icon bg-emerald"><i class="fas fa-building"></i></div>
+         <?php
+            $select_listings = $conn->prepare("SELECT * FROM `property`");
+            $select_listings->execute();
+            $count_listings = $select_listings->rowCount();
+         ?>
+         <div class="label">Properties Posted</div>
+         <div class="value"><?= $count_listings; ?></div>
+         <a href="listings.php" class="cta">View listings →</a>
+      </div>
 
-   <div class="box">
-      <?php
-         $select_users = $conn->prepare("SELECT * FROM `users`");
-         $select_users->execute();
-         $count_users = $select_users->rowCount();
-      ?>
-      <h3><?= $count_users; ?></h3>
-      <p>total users</p>
-      <a href="users.php" class="btn">view users</a>
-   </div>
+      <div class="box stat-card">
+         <div class="icon bg-purple"><i class="fas fa-users"></i></div>
+         <?php
+            $select_users = $conn->prepare("SELECT * FROM `users`");
+            $select_users->execute();
+            $count_users = $select_users->rowCount();
+         ?>
+         <div class="label">Total Users</div>
+         <div class="value"><?= $count_users; ?></div>
+         <a href="users.php" class="cta">View users →</a>
+      </div>
 
-   <div class="box">
-      <?php
-         $select_admins = $conn->prepare("SELECT * FROM `admins`");
-         $select_admins->execute();
-         $count_admins = $select_admins->rowCount();
-      ?>
-      <h3><?= $count_admins; ?></h3>
-      <p>total admins</p>
-      <a href="admins.php" class="btn">view admins</a>
-   </div>
-
-   <div class="box">
-      <?php
-         $select_messages = $conn->prepare("SELECT * FROM `messages`");
-         $select_messages->execute();
-         $count_messages = $select_messages->rowCount();
-      ?>
-      <h3><?= $count_messages; ?></h3>
-      <p>new messages</p>
-      <a href="messages.php" class="btn">view messages</a>
-   </div>
-
+      <div class="box stat-card">
+         <div class="icon bg-rose"><i class="fas fa-envelope"></i></div>
+         <?php
+            $select_messages = $conn->prepare("SELECT * FROM `messages`");
+            $select_messages->execute();
+            $count_messages = $select_messages->rowCount();
+         ?>
+         <div class="label">New Messages</div>
+         <div class="value"><?= $count_messages; ?></div>
+         <a href="messages.php" class="cta">View messages →</a>
+      </div>
    </div>
 
 </section>

@@ -27,7 +27,7 @@ include 'components/save_send.php';
    <link rel="stylesheet" href="css/style.css">
 
 </head>
-<body>
+<body class="listings-page">
    
 <?php include 'components/user_header.php'; ?>
 
@@ -109,11 +109,9 @@ include 'components/save_send.php';
             <p class="location"><i class="fas fa-map-marker-alt"></i><span><?= $fetch_property['address']; ?></span></p>
             <div class="flex">
                <p><i class="fas fa-house"></i><span><?= $fetch_property['type']; ?></span></p>
-               <p><i class="fas fa-tag"></i><span><?= $fetch_property['offer']; ?></span></p>
                <p><i class="fas fa-bed"></i><span><?= $fetch_property['bhk']; ?> BHK</span></p>
                <p><i class="fas fa-trowel"></i><span><?= $fetch_property['status']; ?></span></p>
                <p><i class="fas fa-couch"></i><span><?= $fetch_property['furnished']; ?></span></p>
-               <p><i class="fas fa-maximize"></i><span><?= $fetch_property['carpet']; ?>sqft</span></p>
             </div>
             <div class="flex-btn">
                <a href="view_property.php?get_id=<?= $fetch_property['id']; ?>" class="btn">view property</a>

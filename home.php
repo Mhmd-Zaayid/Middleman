@@ -33,37 +33,69 @@ include 'components/save_send.php';
 
 
 <!-- home section starts  -->
+<!-- added background image 'homeback.jpg' to home section -->
+<div class="home" style="background-image: url('images/homebackk.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
 
-<div class="home">
-
-   <section class="center">
+   <section class="center" style="display: flex; justify-content: flex-start; margin-left: 0;">
 
       <form action="search.php" method="post">
          <h3>Find your perfect home</h3>
          <div class="box">
-            <p>enter location <span>*</span></p>
-            <input type="text" name="h_location" required maxlength="100" placeholder="enter city name" class="input">
+            <p>select city <span>*</span></p>
+            <select name="h_location" required class="input">
+               <option value="">Select City</option>
+               <!-- Pan-India major cities -->
+               <option value="Kochi">Kochi</option>
+               <option value="Mumbai">Mumbai</option>
+               <option value="Delhi">Delhi</option>
+               <option value="Bangalore">Bangalore</option>
+               <option value="Chennai">Chennai</option>
+               <option value="Kolkata">Kolkata</option>
+               <option value="Hyderabad">Hyderabad</option>
+               <option value="Pune">Pune</option>
+               <option value="Ahmedabad">Ahmedabad</option>
+               <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+               <!-- Kerala districts -->
+               <option value="Kottayam">Kottayam</option>
+               <option value="Kannur">Kannur</option>
+               <option value="Thrissur">Thrissur</option>
+               <option value="Malappuram">Malappuram</option>
+               <option value="Palakkad">Palakkad</option>
+               <option value="Wayanad">Wayanad</option>
+               <option value="Idukki">Idukki</option>
+               <option value="Alappuzha">Alappuzha</option>
+               <option value="Kollam">Kollam</option>
+               <option value="Kozhikode">Kozhikode</option>
+               <option value="Kasaragod">Kasaragod</option>
+               <option value="Pathanamthitta">Pathanamthitta</option>
+               <option value="Ernakulam">Ernakulam</option>
+               <!-- Additional Kerala notable towns -->
+               <option value="Guruvayur">Guruvayur</option>
+               <option value="Kalpetta">Kalpetta</option>
+               <option value="Munnar">Munnar</option>
+               <option value="Varkala">Varkala</option>
+               <option value="Changanassery">Changanassery</option>
+               <option value="Nedumbassery">Nedumbassery</option>
+               <option value="Kumbalangi">Kumbalangi</option>
+               <option value="Perumbavoor">Perumbavoor</option>
+               <option value="Angamaly">Angamaly</option>
+               <option value="Mattancherry">Mattancherry</option>
+            </select>
          </div>
          <div class="flex">
             <div class="box">
-               <p>property type <span>*</span></p>
-               <select name="h_type" class="input" required>
+               <p>property type</p>
+               <select name="h_type" class="input">
+                  <option value="">Any type</option>
                   <option value="flat">flat</option>
                   <option value="house">house</option>
-                  <option value="shop">shop</option>
+                  <option value="plot">plot</option>
                </select>
             </div>
             <div class="box">
-               <p>offer type <span>*</span></p>
-               <select name="h_offer" class="input" required>
-                  <option value="sale">sale</option>
-                  <option value="resale">resale</option>
-                  <option value="rent">rent</option>
-               </select>
-            </div>
-            <div class="box">
-               <p>maximum budget <span>*</span></p>
-               <select name="h_min" class="input" required>
+               <p>minimum budget</p>
+               <select name="h_min" class="input">
+                  <option value="">No minimum</option>
                   <option value="5000">5k</option>
                   <option value="10000">10k</option>
                   <option value="15000">15k</option>
@@ -99,8 +131,9 @@ include 'components/save_send.php';
                </select>
             </div>
             <div class="box">
-               <p>maximum budget <span>*</span></p>
-               <select name="h_max" class="input" required>
+               <p>maximum budget</p>
+               <select name="h_max" class="input">
+                  <option value="">No maximum</option>
                   <option value="5000">5k</option>
                   <option value="10000">10k</option>
                   <option value="15000">15k</option>
@@ -272,11 +305,9 @@ include 'components/save_send.php';
             <p class="location"><i class="fas fa-map-marker-alt"></i><span><?= $fetch_property['address']; ?></span></p>
             <div class="flex">
                <p><i class="fas fa-house"></i><span><?= $fetch_property['type']; ?></span></p>
-               <p><i class="fas fa-tag"></i><span><?= $fetch_property['offer']; ?></span></p>
                <p><i class="fas fa-bed"></i><span><?= $fetch_property['bhk']; ?> BHK</span></p>
                <p><i class="fas fa-trowel"></i><span><?= $fetch_property['status']; ?></span></p>
                <p><i class="fas fa-couch"></i><span><?= $fetch_property['furnished']; ?></span></p>
-               <p><i class="fas fa-maximize"></i><span><?= $fetch_property['carpet']; ?>sqft</span></p>
             </div>
             <div class="flex-btn">
                <a href="view_property.php?get_id=<?= $fetch_property['id']; ?>" class="btn">view property</a>

@@ -1,10 +1,13 @@
 <!-- header section starts  -->
 
-<header class="header">
+<header class="header modern-header">
 
    <nav class="navbar nav-1">
       <section class="flex">
-         <a href="home.php" class="logo"><i class="fas fa-house"></i>MyHome</a>
+         <a href="home.php" class="logo logo-brand">
+            <img src="images/middleman-logo.svg" alt="Middleman" class="brand-mark" />
+            <span class="brand-text">Middleman</span>
+         </a>
 
          <ul>
             <li><a href="post_property.php">post property<i class="fas fa-paper-plane"></i></a></li>

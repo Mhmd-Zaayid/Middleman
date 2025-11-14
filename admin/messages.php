@@ -11,8 +11,7 @@ if(isset($_COOKIE['admin_id'])){
 
 if(isset($_POST['delete'])){
 
-   $delete_id = $_POST['delete_id'];
-   $delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
+   $delete_id = htmlspecialchars($_POST['delete_id'], ENT_QUOTES, 'UTF-8');
 
    $verify_delete = $conn->prepare("SELECT * FROM `messages` WHERE id = ?");
    $verify_delete->execute([$delete_id]);
@@ -44,7 +43,7 @@ if(isset($_POST['delete'])){
    <link rel="stylesheet" href="../css/admin_style.css">
 
 </head>
-<body>
+<body class="bg-electric-blue">
    
 <!-- header section starts  -->
 <?php include '../components/admin_header.php'; ?>
@@ -56,6 +55,16 @@ if(isset($_POST['delete'])){
 
    <h1 class="heading">messages</h1>
 
+   <style>
+      /* Apply same modern card touches while keeping original grid sizing */
+      .stat-card{ position:relative; overflow:hidden; }
+      .stat-card .icon{ position:absolute; top:1.2rem; right:1.2rem; width:44px; height:44px; display:grid; place-items:center; border-radius:10px; color:#fff; font-size:1.6rem; }
+      .bg-blue{ background:linear-gradient(135deg,#3b82f6,#60a5fa); }
+      .bg-emerald{ background:linear-gradient(135deg,#10b981,#34d399); }
+      .bg-purple{ background:linear-gradient(135deg,#8b5cf6,#a78bfa); }
+      .bg-rose{ background:linear-gradient(135deg,#ef4444,#f97316); }
+   </style>
+
    <form action="" method="POST" class="search-form">
       <input type="text" name="search_box" placeholder="search messages..." maxlength="100" required>
       <button type="submit" class="fas fa-search" name="search_btn"></button>
@@ -65,8 +74,7 @@ if(isset($_POST['delete'])){
 
    <?php
       if(isset($_POST['search_box']) OR isset($_POST['search_btn'])){
-         $search_box = $_POST['search_box'];
-         $search_box = filter_var($search_box, FILTER_SANITIZE_STRING);
+         $search_box = htmlspecialchars($_POST['search_box'], ENT_QUOTES, 'UTF-8');
          $select_messages = $conn->prepare("SELECT * FROM `messages` WHERE name LIKE '%{$search_box}%' OR number LIKE '%{$search_box}%' OR email LIKE '%{$search_box}%'");
          $select_messages->execute();
       }else{
@@ -76,7 +84,8 @@ if(isset($_POST['delete'])){
       if($select_messages->rowCount() > 0){
          while($fetch_messages = $select_messages->fetch(PDO::FETCH_ASSOC)){
    ?>
-   <div class="box">
+   <div class="box stat-card">
+      <div class="icon bg-rose"><i class="fas fa-envelope"></i></div>
       <p>name : <span><?= $fetch_messages['name']; ?></span></p>
       <p>email : <a href="mailto:<?= $fetch_messages['email']; ?>"><?= $fetch_messages['email']; ?></a></p>
       <p>number : <a href="tel:<?= $fetch_messages['number']; ?>"><?= $fetch_messages['number']; ?></a></p>

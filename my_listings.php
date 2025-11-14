@@ -11,8 +11,7 @@ if(isset($_COOKIE['user_id'])){
 
 if(isset($_POST['delete'])){
 
-   $delete_id = $_POST['property_id'];
-   $delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
+   $delete_id = htmlspecialchars($_POST['property_id'], ENT_QUOTES, 'UTF-8');
 
    $verify_delete = $conn->prepare("SELECT * FROM `property` WHERE id = ?");
    $verify_delete->execute([$delete_id]);
@@ -26,17 +25,19 @@ if(isset($_POST['delete'])){
          $image_03 = $fetch_images['image_03'];
          $image_04 = $fetch_images['image_04'];
          $image_05 = $fetch_images['image_05'];
-         unlink('uploaded_files/'.$image_01);
-         if(!empty($image_02)){
+         if(file_exists('uploaded_files/'.$image_01)){
+            unlink('uploaded_files/'.$image_01);
+         }
+         if(!empty($image_02) && file_exists('uploaded_files/'.$image_02)){
             unlink('uploaded_files/'.$image_02);
          }
-         if(!empty($image_03)){
+         if(!empty($image_03) && file_exists('uploaded_files/'.$image_03)){
             unlink('uploaded_files/'.$image_03);
          }
-         if(!empty($image_04)){
+         if(!empty($image_04) && file_exists('uploaded_files/'.$image_04)){
             unlink('uploaded_files/'.$image_04);
          }
-         if(!empty($image_05)){
+         if(!empty($image_05) && file_exists('uploaded_files/'.$image_05)){
             unlink('uploaded_files/'.$image_05);
          }
       }
@@ -70,7 +71,7 @@ if(isset($_POST['delete'])){
    <link rel="stylesheet" href="css/style.css">
 
 </head>
-<body>
+<body class="my-listings-page">
    
 <?php include 'components/user_header.php'; ?>
 
@@ -122,6 +123,12 @@ if(isset($_POST['delete'])){
       <div class="price"><i class="fas fa-indian-rupee-sign"></i><span><?= $fetch_property['price']; ?></span></div>
       <h3 class="name"><?= $fetch_property['property_name']; ?></h3>
       <p class="location"><i class="fas fa-map-marker-alt"></i><span><?= $fetch_property['address']; ?></span></p>
+      <div class="meta-row">
+         <span class="badge"><i class="fas fa-house"></i><span><?= $fetch_property['type']; ?></span></span>
+         <span class="badge"><i class="fas fa-bed"></i><span><?= $fetch_property['bhk']; ?> BHK</span></span>
+         <span class="badge"><i class="fas fa-trowel"></i><span><?= $fetch_property['status']; ?></span></span>
+         <span class="badge"><i class="fas fa-couch"></i><span><?= $fetch_property['furnished']; ?></span></span>
+      </div>
       <div class="flex-btn">
          <a href="update_property.php?get_id=<?= $property_id; ?>" class="btn">update</a>
          <input type="submit" name="delete" value="delete" class="btn" onclick="return confirm('delete this listing?');">

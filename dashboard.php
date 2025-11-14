@@ -26,7 +26,7 @@ if(isset($_COOKIE['user_id'])){
    <link rel="stylesheet" href="css/style.css">
 
 </head>
-<body>
+<body class="dashboard-page">
    
 <?php include 'components/user_header.php'; ?>
 
@@ -110,21 +110,7 @@ if(isset($_COOKIE['user_id'])){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-
-<?php include 'components/footer.php'; ?>
 
 <!-- custom js file link  -->
 <script src="js/script.js"></script>

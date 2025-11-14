@@ -11,8 +11,7 @@ if(isset($_COOKIE['user_id'])){
 
 if(isset($_POST['delete'])){
 
-   $delete_id = $_POST['request_id'];
-   $delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
+   $delete_id = htmlspecialchars($_POST['request_id'], ENT_QUOTES, 'UTF-8');
 
    $verify_delete = $conn->prepare("SELECT * FROM `requests` WHERE id = ?");
    $verify_delete->execute([$delete_id]);

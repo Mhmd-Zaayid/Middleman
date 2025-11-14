@@ -1,41 +1,32 @@
 <?php
-
+// Single admin mode: disable further registrations
 include '../components/connect.php';
 
-if(isset($_COOKIE['admin_id'])){
-   $admin_id = $_COOKIE['admin_id'];
-}else{
-   $admin_id = '';
-   header('location:login.php');
+// If any admin exists, redirect immediately
+$countAdminsStmt = $conn->prepare("SELECT COUNT(*) FROM `admins`");
+$countAdminsStmt->execute();
+$adminTotal = (int)$countAdminsStmt->fetchColumn();
+if($adminTotal > 0){
+   header('Location: dashboard.php');
+   exit;
 }
 
+// Allow creation ONLY if zero admins exist (initial setup)
 if(isset($_POST['submit'])){
-
    $id = create_unique_id();
-   $name = $_POST['name'];
-   $name = filter_var($name, FILTER_SANITIZE_STRING); 
-   $pass = sha1($_POST['pass']);
-   $pass = filter_var($pass, FILTER_SANITIZE_STRING); 
-   $c_pass = sha1($_POST['c_pass']);
-   $c_pass = filter_var($c_pass, FILTER_SANITIZE_STRING);   
-
-   $select_admins = $conn->prepare("SELECT * FROM `admins` WHERE name = ?");
-   $select_admins->execute([$name]);
-
-   if($select_admins->rowCount() > 0){
-      $warning_msg[] = 'Username already taken!';
+   $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
+   $pass_raw = $_POST['pass'];
+   $c_pass_raw = $_POST['c_pass'];
+   if($pass_raw !== $c_pass_raw){
+      $warning_msg[] = 'Password not matched!';
    }else{
-      if($pass != $c_pass){
-         $warning_msg[] = 'Password not matched!';
-      }else{
-         $insert_admin = $conn->prepare("INSERT INTO `admins`(id, name, password) VALUES(?,?,?)");
-         $insert_admin->execute([$id, $name, $c_pass]);
-         $success_msg[] = 'Registered successfully!';
-      }
+      $pass = htmlspecialchars(sha1($pass_raw), ENT_QUOTES, 'UTF-8');
+      $insert_admin = $conn->prepare("INSERT INTO `admins`(id, name, password) VALUES(?,?,?)");
+      $insert_admin->execute([$id, $name, $pass]);
+      $success_msg[] = 'Admin created. Redirecting...';
+      header('Refresh:2; URL=dashboard.php');
    }
-
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -64,37 +55,19 @@ if(isset($_POST['submit'])){
 <section class="form-container">
 
    <form action="" method="POST">
-      <h3>register new</h3>
-      <input type="text" name="name" placeholder="enter username" maxlength="20" class="box" required oninput="this.value = this.value.replace(/\s/g, '')">
-      <input type="password" name="pass" placeholder="enter password" maxlength="20" class="box" required oninput="this.value = this.value.replace(/\s/g, '')">
+      <h3>Initial Admin Setup</h3>
+      <p style="font-size:1.3rem; color:#555; margin-bottom:1rem;">Create the primary admin account. This action is available only once.</p>
+      <input type="text" name="name" placeholder="choose username" maxlength="20" class="box" required oninput="this.value = this.value.replace(/\s/g, '')">
+      <input type="password" name="pass" placeholder="choose password" maxlength="20" class="box" required oninput="this.value = this.value.replace(/\s/g, '')">
       <input type="password" name="c_pass" placeholder="confirm password" maxlength="20" class="box" required oninput="this.value = this.value.replace(/\s/g, '')">
-      <input type="submit" value="register now" name="submit" class="btn">
+      <input type="submit" value="Create Admin" name="submit" class="btn">
    </form>
 
 </section>
 
-<!-- register section ends -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
-<!-- custom js file link  -->
+<-- custom js file link  -->
 <script src="../js/admin_script.js"></script>
 
 <?php include '../components/message.php'; ?>

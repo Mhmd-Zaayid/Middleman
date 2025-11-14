@@ -15,8 +15,7 @@ $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
 
 if(isset($_POST['submit'])){
 
-   $name = $_POST['name'];
-   $name = filter_var($name, FILTER_SANITIZE_STRING); 
+   $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
 
    if(!empty($name)){
       $verify_name = $conn->prepare("SELECT * FROM `admins` WHERE name = ?");
@@ -32,12 +31,9 @@ if(isset($_POST['submit'])){
 
    $empty_pass = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
    $prev_pass = $fetch_profile['password'];
-   $old_pass = sha1($_POST['old_pass']);
-   $old_pass = filter_var($old_pass, FILTER_SANITIZE_STRING);
-   $new_pass = sha1($_POST['new_pass']);
-   $new_pass = filter_var($new_pass, FILTER_SANITIZE_STRING);
-   $c_pass = sha1($_POST['c_pass']);
-   $c_pass = filter_var($c_pass, FILTER_SANITIZE_STRING);
+   $old_pass = htmlspecialchars(sha1($_POST['old_pass']), ENT_QUOTES, 'UTF-8');
+   $new_pass = htmlspecialchars(sha1($_POST['new_pass']), ENT_QUOTES, 'UTF-8');
+   $c_pass = htmlspecialchars(sha1($_POST['c_pass']), ENT_QUOTES, 'UTF-8');
 
    if($old_pass != $empty_pass){
       if($old_pass != $prev_pass){
@@ -74,7 +70,7 @@ if(isset($_POST['submit'])){
    <link rel="stylesheet" href="../css/admin_style.css">
 
 </head>
-<body>
+<body class="bg-electric-blue">
    
 <!-- header section starts  -->
 <?php include '../components/admin_header.php'; ?>
@@ -84,8 +80,30 @@ if(isset($_POST['submit'])){
 
 <section class="form-container">
 
-   <form action="" method="POST">
-      <h3>update profile</h3>
+   <style>
+      /* Modern card styling aligned with other admin cards, keeping original width */
+      .update-card{
+         position: relative;
+         width: 50rem; /* preserve previous size */
+         background: #fff;
+         border-radius: 16px;
+         border: var(--border);
+         box-shadow: var(--box-shadow);
+         padding: 2rem 2rem 2.2rem;
+         text-align: left;
+      }
+      .update-card .title-row{ display:flex; align-items:center; gap:.9rem; margin-bottom: 1rem; }
+      .update-card .icon{ width:46px; height:46px; display:grid; place-items:center; border-radius:12px; color:#fff; font-size:1.6rem; background: linear-gradient(135deg,#3b82f6,#60a5fa); }
+      .update-card h3{ margin:0; font-size:2.1rem; color:#1f2937; text-transform:capitalize; }
+      .update-card .box{ border-radius:10px; }
+      .update-card .btn{ border-radius:10px; font-weight:600; }
+   </style>
+
+   <form action="" method="POST" class="update-card">
+      <div class="title-row">
+         <div class="icon"><i class="fas fa-user-cog"></i></div>
+         <h3>update profile</h3>
+      </div>
       <input type="text" name="name" placeholder="<?= $fetch_profile['name']; ?>" maxlength="20" class="box" oninput="this.value = this.value.replace(/\s/g, '')">
       <input type="password" name="old_pass" placeholder="enter old password" maxlength="20" class="box" oninput="this.value = this.value.replace(/\s/g, '')">
       <input type="password" name="new_pass" placeholder="enter new password" maxlength="20" class="box" oninput="this.value = this.value.replace(/\s/g, '')">

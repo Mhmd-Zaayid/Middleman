@@ -11,8 +11,7 @@ if(isset($_COOKIE['admin_id'])){
 
 if(isset($_POST['delete'])){
 
-   $delete_id = $_POST['delete_id'];
-   $delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
+   $delete_id = htmlspecialchars($_POST['delete_id'], ENT_QUOTES, 'UTF-8');
 
    $verify_delete = $conn->prepare("SELECT * FROM `property` WHERE id = ?");
    $verify_delete->execute([$delete_id]);
@@ -66,7 +65,7 @@ if(isset($_POST['delete'])){
    <link rel="stylesheet" href="../css/admin_style.css">
 
 </head>
-<body>
+<body class="bg-electric-blue">
    
 <!-- header section starts  -->
 <?php include '../components/admin_header.php'; ?>
@@ -77,22 +76,72 @@ if(isset($_POST['delete'])){
    <h1 class="heading">all listings</h1>
 
    <form action="" method="POST" class="search-form">
-      <input type="text" name="search_box" placeholder="search listings..." maxlength="100" required>
-      <button type="submit" class="fas fa-search" name="search_btn"></button>
+      <div class="flex">
+         <select name="city" class="input">
+            <option value="">Select City</option>
+            <!-- Pan-India major cities (retain existing) -->
+            <option value="Kochi">Kochi</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Kolkata">Kolkata</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Pune">Pune</option>
+            <option value="Ahmedabad">Ahmedabad</option>
+            <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+            <!-- Kerala core district names -->
+            <option value="Kottayam">Kottayam</option>
+            <option value="Kannur">Kannur</option>
+            <option value="Thrissur">Thrissur</option>
+            <option value="Malappuram">Malappuram</option>
+            <option value="Palakkad">Palakkad</option>
+            <option value="Wayanad">Wayanad</option>
+            <option value="Idukki">Idukki</option>
+            <option value="Alappuzha">Alappuzha</option>
+            <option value="Kollam">Kollam</option>
+            <option value="Kozhikode">Kozhikode</option>
+            <option value="Kasaragod">Kasaragod</option>
+            <option value="Pathanamthitta">Pathanamthitta</option>
+            <option value="Ernakulam">Ernakulam</option>
+            <!-- Additional Kerala notable towns (10 extras requested) -->
+            <option value="Guruvayur">Guruvayur</option>
+            <option value="Kalpetta">Kalpetta</option>
+            <option value="Munnar">Munnar</option>
+            <option value="Varkala">Varkala</option>
+            <option value="Changanassery">Changanassery</option>
+            <option value="Nedumbassery">Nedumbassery</option>
+            <option value="Kumbalangi">Kumbalangi</option>
+            <option value="Perumbavoor">Perumbavoor</option>
+            <option value="Angamaly">Angamaly</option>
+            <option value="Mattancherry">Mattancherry</option>
+         </select>
+         <button type="submit" class="fas fa-search" name="search_btn" title="Filter by city"></button>
+      </div>
    </form>
 
    <div class="box-container">
 
    <?php
-      if(isset($_POST['search_box']) OR isset($_POST['search_btn'])){
-         $search_box = $_POST['search_box'];
-         $search_box = filter_var($search_box, FILTER_SANITIZE_STRING);
-         $select_listings = $conn->prepare("SELECT * FROM `property` WHERE property_name LIKE '%{$search_box}%' OR address LIKE '%{$search_box}%' ORDER BY date DESC");
-         $select_listings->execute();
+      if(isset($_POST['search_btn'])){
+         $city = htmlspecialchars($_POST['city'], ENT_QUOTES, 'UTF-8');
+
+         $where_conditions = [];
+         $params = [];
+
+         if (!empty($city)) {
+            // Use a tolerant match to handle trailing spaces or variations like "Kochi, Kerala"
+            $where_conditions[] = "LOWER(TRIM(city)) LIKE LOWER(?)";
+            $params[] = '%' . trim($city) . '%';
+         }
+
+         $where_clause = !empty($where_conditions) ? "WHERE " . implode(" AND ", $where_conditions) : "";
+         $select_listings = $conn->prepare("SELECT * FROM `property` {$where_clause} ORDER BY date DESC");
+         $select_listings->execute($params);
       }else{
          $select_listings = $conn->prepare("SELECT * FROM `property` ORDER BY date DESC");
          $select_listings->execute();
-      } 
+      }
       $total_images = 0;
        if($select_listings->rowCount() > 0){
          while($fetch_listing = $select_listings->fetch(PDO::FETCH_ASSOC)){
@@ -134,6 +183,12 @@ if(isset($_POST['delete'])){
       <p class="price"><i class="fas fa-indian-rupee-sign"></i><?= $fetch_listing['price']; ?></p>
       <h3 class="name"><?= $fetch_listing['property_name']; ?></h3>
       <p class="location"><i class="fas fa-map-marker-alt"></i><?= $fetch_listing['address']; ?></p>
+      <div class="flex" style="margin: .7rem 0 .4rem; gap:1rem; flex-wrap:wrap;">
+         <p><i class="fas fa-house"></i><span><?= $fetch_listing['type']; ?></span></p>
+         <p><i class="fas fa-bed"></i><span><?= $fetch_listing['bhk']; ?> BHK</span></p>
+         <p><i class="fas fa-trowel"></i><span><?= $fetch_listing['status']; ?></span></p>
+         <p><i class="fas fa-couch"></i><span><?= $fetch_listing['furnished']; ?></span></p>
+      </div>
       <form action="" method="POST">
          <input type="hidden" name="delete_id" value="<?= $listing_id; ?>">
          <a href="view_property.php?get_id=<?= $listing_id; ?>" class="btn">view property</a>
@@ -142,7 +197,7 @@ if(isset($_POST['delete'])){
    </div>
    <?php
          }
-      }elseif(isset($_POST['search_box']) OR isset($_POST['search_btn'])){
+      }elseif(isset($_POST['search_btn'])){
          echo '<p class="empty">no results found!</p>';
       }else{
          echo '<p class="empty">no property posted yet!</p>';

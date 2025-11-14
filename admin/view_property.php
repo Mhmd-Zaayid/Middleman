@@ -18,8 +18,7 @@ if(isset($_GET['get_id'])){
 
 if(isset($_POST['delete'])){
 
-   $delete_id = $_POST['delete_id'];
-   $delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
+   $delete_id = htmlspecialchars($_POST['delete_id'], ENT_QUOTES, 'UTF-8');
 
    $verify_delete = $conn->prepare("SELECT * FROM `property` WHERE id = ?");
    $verify_delete->execute([$delete_id]);
@@ -75,7 +74,7 @@ if(isset($_POST['delete'])){
    <link rel="stylesheet" href="../css/admin_style.css">
 
 </head>
-<body>
+<body class="bg-electric-blue">
    
 <!-- header section starts  -->
 <?php include '../components/admin_header.php'; ?>
@@ -99,24 +98,26 @@ if(isset($_POST['delete'])){
 
    ?>
    <div class="details">
-     <div class="swiper images-container">
-         <div class="swiper-wrapper">
-            <img src="../uploaded_files/<?= $fetch_property['image_01']; ?>" alt="" class="swiper-slide">
-            <?php if(!empty($fetch_property['image_02'])){ ?>
-            <img src="../uploaded_files/<?= $fetch_property['image_02']; ?>" alt="" class="swiper-slide">
-            <?php } ?>
-            <?php if(!empty($fetch_property['image_03'])){ ?>
-            <img src="../uploaded_files/<?= $fetch_property['image_03']; ?>" alt="" class="swiper-slide">
-            <?php } ?>
-            <?php if(!empty($fetch_property['image_04'])){ ?>
-            <img src="../uploaded_files/<?= $fetch_property['image_04']; ?>" alt="" class="swiper-slide">
-            <?php } ?>
-            <?php if(!empty($fetch_property['image_05'])){ ?>
-            <img src="../uploaded_files/<?= $fetch_property['image_05']; ?>" alt="" class="swiper-slide">
-            <?php } ?>
-         </div>
-         <div class="swiper-pagination"></div>
-     </div>
+    <div class="swiper images-container">
+       <div class="swiper-wrapper">
+         <div class="swiper-slide"><img src="../uploaded_files/<?= $fetch_property['image_01']; ?>" alt=""></div>
+         <?php if(!empty($fetch_property['image_02'])){ ?>
+         <div class="swiper-slide"><img src="../uploaded_files/<?= $fetch_property['image_02']; ?>" alt=""></div>
+         <?php } ?>
+         <?php if(!empty($fetch_property['image_03'])){ ?>
+         <div class="swiper-slide"><img src="../uploaded_files/<?= $fetch_property['image_03']; ?>" alt=""></div>
+         <?php } ?>
+         <?php if(!empty($fetch_property['image_04'])){ ?>
+         <div class="swiper-slide"><img src="../uploaded_files/<?= $fetch_property['image_04']; ?>" alt=""></div>
+         <?php } ?>
+         <?php if(!empty($fetch_property['image_05'])){ ?>
+         <div class="swiper-slide"><img src="../uploaded_files/<?= $fetch_property['image_05']; ?>" alt=""></div>
+         <?php } ?>
+       </div>
+       <div class="swiper-pagination"></div>
+       <div class="swiper-button-prev"></div>
+       <div class="swiper-button-next"></div>
+    </div>
       <h3 class="name"><?= $fetch_property['property_name']; ?></h3>
       <p class="location"><i class="fas fa-map-marker-alt"></i><span><?= $fetch_property['address']; ?></span></p>
       <div class="info">
@@ -124,47 +125,26 @@ if(isset($_POST['delete'])){
          <p><i class="fas fa-user"></i><span><?= $fetch_user['name']; ?></span></p>
          <p><i class="fas fa-phone"></i><a href="tel:1234567890"><?= $fetch_user['number']; ?></a></p>
          <p><i class="fas fa-building"></i><span><?= $fetch_property['type']; ?></span></p>
-         <p><i class="fas fa-house"></i><span><?= $fetch_property['offer']; ?></span></p>
          <p><i class="fas fa-calendar"></i><span><?= $fetch_property['date']; ?></span></p>
       </div>
       <h3 class="title">details</h3>
       <div class="flex">
          <div class="box">
+            <?php if($fetch_property['type'] != 'plot'): ?>
             <p><i>rooms :</i><span><?= $fetch_property['bhk']; ?> BHK</span></p>
-            <p><i>deposit amount : </i><span><span class="fas fa-indian-rupee-sign" style="margin-right: .5rem;"></span><?= $fetch_property['deposite']; ?></span></p>
-            <p><i>status :</i><span><?= $fetch_property['status']; ?></span></p>
-            <p><i>bedroom :</i><span><?= $fetch_property['bedroom']; ?></span></p>
             <p><i>bathroom :</i><span><?= $fetch_property['bathroom']; ?></span></p>
-            <p><i>balcony :</i><span><?= $fetch_property['balcony']; ?></span></p>
-         </div>
-         <div class="box">
-            <p><i>carpet area :</i><span><?= $fetch_property['carpet']; ?>sqft</span></p>
-            <p><i>age :</i><span><?= $fetch_property['age']; ?> years</span></p>
-            <p><i>total floors :</i><span><?= $fetch_property['total_floors']; ?></span></p>
-            <p><i>room floor :</i><span><?= $fetch_property['room_floor']; ?></span></p>
             <p><i>furnished :</i><span><?= $fetch_property['furnished']; ?></span></p>
-            <p><i>loan :</i><span><?= $fetch_property['loan']; ?></span></p>
-         </div>
-      </div>
-      <h3 class="title">amenities</h3>
-      <div class="flex">
-         <div class="box">
-            <p><i class="fas fa-<?php if($fetch_property['lift'] == 'yes'){echo 'check';}else{echo 'times';} ?>"></i><span>lifts</span></p>
-            <p><i class="fas fa-<?php if($fetch_property['security_guard'] == 'yes'){echo 'check';}else{echo 'times';} ?>"></i><span>security guards</span></p>
-            <p><i class="fas fa-<?php if($fetch_property['play_ground'] == 'yes'){echo 'check';}else{echo 'times';} ?>"></i><span>play ground</span></p>
-            <p><i class="fas fa-<?php if($fetch_property['garden'] == 'yes'){echo 'check';}else{echo 'times';} ?>"></i><span>gardens</span></p>
-            <p><i class="fas fa-<?php if($fetch_property['water_supply'] == 'yes'){echo 'check';}else{echo 'times';} ?>"></i><span>water supply</span></p>
-            <p><i class="fas fa-<?php if($fetch_property['power_backup'] == 'yes'){echo 'check';}else{echo 'times';} ?>"></i><span>power backup</span></p>
+            <?php endif; ?>
+            <p><i>status :</i><span><?= $fetch_property['status']; ?></span></p>
          </div>
          <div class="box">
-            <p><i class="fas fa-<?php if($fetch_property['parking_area'] == 'yes'){echo 'check';}else{echo 'times';} ?>"></i><span>parking area</span></p>
-            <p><i class="fas fa-<?php if($fetch_property['gym'] == 'yes'){echo 'check';}else{echo 'times';} ?>"></i><span>gym</span></p>
-            <p><i class="fas fa-<?php if($fetch_property['shopping_mall'] == 'yes'){echo 'check';}else{echo 'times';} ?>"></i><span>shopping mall</span></p>
-            <p><i class="fas fa-<?php if($fetch_property['hospital'] == 'yes'){echo 'check';}else{echo 'times';} ?>"></i><span>hospital</span></p>
-            <p><i class="fas fa-<?php if($fetch_property['school'] == 'yes'){echo 'check';}else{echo 'times';} ?>"></i><span>schools</span></p>
-            <p><i class="fas fa-<?php if($fetch_property['market_area'] == 'yes'){echo 'check';}else{echo 'times';} ?>"></i><span>market area</span></p>
+            <p><i>age :</i><span><?= $fetch_property['age']; ?> years</span></p>
+            <?php if($fetch_property['type'] != 'plot'): ?>
+            <p><i>total floors :</i><span><?= $fetch_property['total_floors']; ?></span></p>
+            <?php endif; ?>
          </div>
       </div>
+
       <h3 class="title">description</h3>
       <p class="description"><?= $fetch_property['description']; ?></p>
       <form action="" method="post" class="flex-btn">
@@ -209,21 +189,18 @@ if(isset($_POST['delete'])){
 
 <script>
 
-var swiper = new Swiper(".images-container", {
-   effect: "coverflow",
+var swiper = new Swiper('.images-container', {
+   slidesPerView: 1,
+   spaceBetween: 16,
+   loop: true,
    grabCursor: true,
-   centeredSlides: true,
-   slidesPerView: "auto",
-   loop:true,
-   coverflowEffect: {
-      rotate: 0,
-      stretch: 0,
-      depth: 200,
-      modifier: 3,
-      slideShadows: true,
-   },
    pagination: {
-      el: ".swiper-pagination",
+      el: '.swiper-pagination',
+      clickable: true,
+   },
+   navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
    },
 });
 
